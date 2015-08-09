@@ -15,29 +15,17 @@
 #include <Ticker.h>
 
 int LED_SEG_TAB[] = {0xfc, 0xc0, 0x6e, 0xe6, 0xd2, 0xb6, 0xbe, 0xe0, 0xfe, 0xf6, 0x00};
+//                     0    ------------------------------------------       9 , none
 byte dot_state = 0;
 unsigned long epoch ;
 int hh;
 int mm;
 int ss;
-int force_update= 0;
+int force_update= 1;
 Ticker second_tick;
-    // // OLED  
-    // #include <Wire.h>
-    // #include <Adafruit_GFX.h>
-    // #include <ESP_Adafruit_SSD1306.h>
-
-    // #define OLED_RESET 4
-    // Adafruit_SSD1306 display(OLED_RESET);
-    // #define NUMFLAKES 10
-    // #define XPOS 0
-    // #define YPOS 1
-    // #define DELTAY 2
-    // //
 
 const char* ssid     = "MAKERCLUB-CM";
 const char* pass     = "welcomegogogo";
-
 
 unsigned int localPort = 2390;      // local port to listen for UDP packets
 
@@ -105,11 +93,9 @@ void setup()
 {
     init_hardware();
     init_wifi();
-    // while(force_update != 1)
-    {
-        NTP_get();
-        delay(100);
-    }
+
+    NTP_get();
+    delay(100);
 
     hh = (epoch % 86400L) / 3600;
     mm = (epoch % 3600) / 60;
@@ -142,7 +128,6 @@ void tick (void)
 
 int hh1 = hh / 10;
 int hh0 = hh % 10;
-
 if (hh1 == 0) hh1 = 11;
 
 int mm1 = mm / 10;
